@@ -1,0 +1,69 @@
+USE_CAMERA_STUB := false
+
+# inherit from the proprietary version
+-include vendor/acer/a4/BoardConfigVendor.mk
+
+TARGET_NO_BOOTLOADER := true
+TARGET_BOARD_PLATFORM := msm7x30
+TARGET_CPU_ABI := armeabi-v7a
+TARGET_CPU_ABI2 := armeabi
+TARGET_ARCH_VARIANT := armv7-a-neon
+ARCH_ARM_HAVE_TLS_REGISTER := true
+TARGET_BOOTLOADER_BOARD_NAME := paso
+
+# Wifi related defines
+BOARD_WPA_SUPPLICANT_DRIVER := WEXT
+WPA_SUPPLICANT_VERSION      := VER_0_6_X
+WIFI_DRIVER_MODULE_PATH     := /system/wifi/ar6000.ko
+WIFI_DRIVER_MODULE_NAME     := ar6000
+
+BOARD_USES_GENERIC_AUDIO := false
+TARGET_PROVIDES_LIBAUDIO := true
+BOARD_HAVE_BLUETOOTH     := true
+BOARD_HAVE_BLUETOOTH_ACER:= true
+BOARD_VENDOR_USE_AKMD := akm8975
+BOARD_EGL_CFG := device/acer/a4/proprietary/egl.cfg
+
+BOARD_VENDOR_QCOM_AMSS_VERSION := 1200
+BOARD_USES_QCOM_HARDWARE       := true
+BOARD_USES_QCOM_LIBS	       := true
+BOARD_USES_QCOM_LIBRPC         := true
+BOARD_USES_QCOM_GPS            := true
+BOARD_USE_QCOM_PMEM            := true
+
+BOARD_CAMERA_USE_GETBUFFERINFO := true
+BOARD_OVERLAY_FORMAT_YCbCr_420_SP := true
+
+# Current drivers don't support new EGL config
+BOARD_NO_RGBX_8888 := true
+
+BOARD_VENDOR_QCOM_GPS_LOC_API_HARDWARE := paso
+BOARD_VENDOR_QCOM_GPS_LOC_API_AMSS_VERSION := 50000
+
+# Use nasty hack to make Kineto work
+BOARD_USE_KINETO_COMPATIBILITY := false
+
+BOARD_HAVE_FM_RADIO := true
+BOARD_FM_DEVICE := si4708
+BOARD_GLOBAL_CFLAGS += -DHAVE_FM_RADIO
+
+#kernel&recovery base
+BOARD_KERNEL_CMDLINE := console=null
+BOARD_KERNEL_RECOVERY_CMDLINE := $(BOARD_KERNEL_CMDLINE) msmsdcc_power_gpio=88
+BOARD_KERNEL_BASE    := 0x20000000
+
+# fix this up by examining /proc/mtd on a running device
+BOARD_BOOTIMAGE_PARTITION_SIZE := 0x00500000
+BOARD_RECOVERYIMAGE_PARTITION_SIZE := 0x00500000
+BOARD_SYSTEMIMAGE_PARTITION_SIZE := 0x0c640000
+BOARD_USERDATAIMAGE_PARTITION_SIZE := 0x0b900000
+BOARD_FLASH_BLOCK_SIZE := 262144
+
+TARGET_PREBUILT_KERNEL := device/acer/a4/kernel
+
+#BOARD_HAS_NO_SELECT_BUTTON := true
+# Use this flag if the board has a ext4 partition larger than 2gb
+#BOARD_HAS_LARGE_FILESYSTEM := true
+
+BOARD_USES_MMCUTILS := true
+BOARD_HAS_NO_MISC_PARTITION := true

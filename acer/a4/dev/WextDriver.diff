@@ -1,0 +1,43 @@
+diff --git a/external/wpa_supplicant_6/wpa_supplicant/src/drivers/driver_wext.c b/external/wpa_supplicant_6/wpa_supplicant/src/drivers/driver_wext.c
+index d2ef4e7..234a7fb 100644
+--- a/external/wpa_supplicant_6/wpa_supplicant/src/drivers/driver_wext.c
++++ b/external/wpa_supplicant_6/wpa_supplicant/src/drivers/driver_wext.c
+@@ -2548,8 +2548,37 @@ static int wpa_driver_priv_driver_cmd( void *priv, char *cmd, char *buf, size_t
+ 		wpa_printf(MSG_DEBUG,"Reload command");
+ 		wpa_msg(drv->ctx, MSG_INFO, WPA_EVENT_DRIVER_STATE "HANGED");
+ 		return ret;
+-	}
++	} else if (os_strcasecmp(cmd, "MACADDR") == 0) {
++		struct ifreq ifr;
++		os_memset(&ifr, 0, sizeof(ifr));
++		os_strncpy(ifr.ifr_name, drv->ifname, IFNAMSIZ);
+ 
++		if (ioctl(drv->ioctl_sock, SIOCGIFHWADDR, &ifr) < 0) {
++			perror("ioctl[SIOCGIFHWADDR]");
++			ret = -1;
++		} else {
++			u8 *macaddr = (u8 *) ifr.ifr_hwaddr.sa_data;
++			ret = snprintf(buf, buf_len, "Macaddr = " MACSTR "\n",
++			               MAC2STR(macaddr));
++		        wpa_printf(MSG_DEBUG, "%s %s len = %d, %d", __func__,buf , ret, strlen(buf));
++		}
++          return ret;
++        }
++	else if (os_strcasecmp(cmd, "LINKSPEED") == 0) {
++		struct iwreq wrq;
++		unsigned int linkspeed;
++		os_strncpy(wrq.ifr_name, drv->ifname, IFNAMSIZ);
++		wpa_printf(MSG_DEBUG,"Link Speed command");
++		if (ioctl(drv->ioctl_sock, SIOCGIWRATE, &wrq) < 0) {
++			perror("ioctl[SIOCGIWRATE]");
++			ret = -1;
++		} else {
++			linkspeed = wrq.u.bitrate.value / 1000000;
++			ret = snprintf(buf, buf_len, "LinkSpeed %d\n", linkspeed);
++                        wpa_printf(MSG_DEBUG, "%s %s len = %d, %d", __func__, buf, ret, strlen(buf));
++                }
++          return ret;
++	}
+ 	os_memset(&iwr, 0, sizeof(iwr));
+ 	os_strncpy(iwr.ifr_name, drv->ifname, IFNAMSIZ);
+ 	os_memcpy(buf, cmd, strlen(cmd) + 1);

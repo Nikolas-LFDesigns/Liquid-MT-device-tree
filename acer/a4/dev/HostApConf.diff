@@ -1,0 +1,11 @@
+diff --git a/hostapd/hostapd/.config b/hostapd/hostapd/.config
+index b633fe8..e6407a9 100644
+--- a/external/hostapd/hostapd/.config
++++ b/external/hostapd/hostapd/.config
+@@ -1,4 +1,5 @@
+-AP_CONFIG_DRIVER_WILINK=y
++AP_CONFIG_DRIVER_ATHEROS=y
++# AP_CONFIG_DRIVER_WILINK=y
+ # AP_CONFIG_DRIVER_HOSTAP=y
+ # AP_CONFIG_DRIVER_WIRED=y
+ # AP_CONFIG_DRIVER_MADWIFI=y
