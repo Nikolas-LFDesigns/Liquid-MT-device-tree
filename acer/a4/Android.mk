@@ -14,7 +14,7 @@
 
 LOCAL_PATH := $(my-dir)
 subdir_makefiles := \
-	$(LOCAL_PATH)/bluez/Android.mk \
+	$(LOCAL_PATH)/hciattach/Android.mk \
 	$(LOCAL_PATH)/libaudio/Android.mk \
 	$(LOCAL_PATH)/liblights/Android.mk \
 
