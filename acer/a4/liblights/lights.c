@@ -140,15 +140,31 @@ static int set_light_battery(struct light_device_t* dev,
 
 static int set_light_notifications(struct light_device_t* dev,
 		struct light_state_t const* state) {
-if(state->color == 0xFFFFFFFF) {
+	if(state->color == 0xFFFFFF00) {
 			//Notification on
 			//Slow blink
 			write_int(MAIL_LED_FILE, 3);
-		} else {
+			write_int(CALL_LED_FILE, 3);
+		} 
+	else if(state->color == 0xFF00FF00) {	// Green
+			//Notification on
+			//Slow blink
+			write_int(MAIL_LED_FILE, 0);
+			write_int(CALL_LED_FILE, 3);
+		} 
+	else if(state->color == 0xFFFF0000) {	// Red
+			//Notification on
+			//Slow blink
+			write_int(MAIL_LED_FILE, 3);
+			write_int(CALL_LED_FILE, 0);
+		} 
+	else {
 			//Notification off
 			//Off
 			write_int(MAIL_LED_FILE, 0);
+			write_int(CALL_LED_FILE, 0);
 		}
+
 	LOGE("Notification led: %p(%d,%d,%d)\n", state->color, state->flashMode, state->flashOnMS, state->flashOffMS);
 	return 0;
 }
