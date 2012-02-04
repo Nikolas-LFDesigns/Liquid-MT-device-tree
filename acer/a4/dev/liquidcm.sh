@@ -38,7 +38,7 @@ PRODUCT_NAME := cyanogen_a4
 PRODUCT_BRAND := acer
 PRODUCT_DEVICE := a4
 PRODUCT_MODEL := Liquid MT
-PRODUCT_MANUFACTURER := lgeqcom
+PRODUCT_MANUFACTURER := Acer
 PRODUCT_BUILD_PROP_OVERRIDES += PRODUCT_NAME=a4_generic1 BUILD_ID=GRK39F BUILD_FINGERPRINT=google/passion/passion:2.3.6/GRK39F/189904:user/release-keys PRIVATE_BUILD_DESC="passion-user 2.3.6 GRK39F 189904 release-keys"
 
 # Extra Liquid overlay
