@@ -1,8 +1,16 @@
 diff --git a/external/wpa_supplicant_6/wpa_supplicant/src/drivers/driver_wext.c b/external/wpa_supplicant_6/wpa_supplicant/src/drivers/driver_wext.c
-index d2ef4e7..234a7fb 100644
+index d2ef4e7..e5d0043 100644
 --- a/external/wpa_supplicant_6/wpa_supplicant/src/drivers/driver_wext.c
 +++ b/external/wpa_supplicant_6/wpa_supplicant/src/drivers/driver_wext.c
-@@ -2548,8 +2548,37 @@ static int wpa_driver_priv_driver_cmd( void *priv, char *cmd, char *buf, size_t
+@@ -1072,6 +1072,7 @@ void wpa_driver_wext_deinit(void *priv)
+ 	close(drv->ioctl_sock);
+ 	if (drv->mlme_sock >= 0)
+ 		close(drv->mlme_sock);
++	os_free(drv->ifname);
+ 	os_free(drv->assoc_req_ies);
+ 	os_free(drv->assoc_resp_ies);
+ 	os_free(drv);
+@@ -2548,8 +2549,149 @@ static int wpa_driver_priv_driver_cmd( void *priv, char *cmd, char *buf, size_t
  		wpa_printf(MSG_DEBUG,"Reload command");
  		wpa_msg(drv->ctx, MSG_INFO, WPA_EVENT_DRIVER_STATE "HANGED");
  		return ret;
@@ -11,7 +19,7 @@ index d2ef4e7..234a7fb 100644
 +		struct ifreq ifr;
 +		os_memset(&ifr, 0, sizeof(ifr));
 +		os_strncpy(ifr.ifr_name, drv->ifname, IFNAMSIZ);
- 
++
 +		if (ioctl(drv->ioctl_sock, SIOCGIFHWADDR, &ifr) < 0) {
 +			perror("ioctl[SIOCGIFHWADDR]");
 +			ret = -1;
@@ -22,8 +30,13 @@ index d2ef4e7..234a7fb 100644
 +		        wpa_printf(MSG_DEBUG, "%s %s len = %d, %d", __func__,buf , ret, strlen(buf));
 +		}
 +          return ret;
-+        }
-+	else if (os_strcasecmp(cmd, "LINKSPEED") == 0) {
++        } else if (os_strcasecmp(cmd, "scan-passive") == 0) {
++		wpa_printf(MSG_DEBUG,"Scan Passive command");
++          return 12;
++	} else if (os_strcasecmp(cmd, "scan-active") == 0) {
++		wpa_printf(MSG_DEBUG,"Scan Active command");
++          return 11;
++	} else if (os_strcasecmp(cmd, "LINKSPEED") == 0) {
 +		struct iwreq wrq;
 +		unsigned int linkspeed;
 +		os_strncpy(wrq.ifr_name, drv->ifname, IFNAMSIZ);
@@ -37,6 +50,113 @@ index d2ef4e7..234a7fb 100644
 +                        wpa_printf(MSG_DEBUG, "%s %s len = %d, %d", __func__, buf, ret, strlen(buf));
 +                }
 +          return ret;
++	} else if (os_strncasecmp(cmd, "powermode", 9) == 0) {
++          return 9;
++	} else if (os_strncasecmp(cmd, "getpower", 8) == 0) {
++          return 8;
++	} else if (os_strncasecmp(cmd, "get-rts-threshold", 17) == 0) {
++		struct iwreq wrq;
++		unsigned int rtsThreshold;
++
++		strncpy(wrq.ifr_name, drv->ifname, IFNAMSIZ);
++
++		if (ioctl(drv->ioctl_sock, SIOCGIWRTS, &wrq) < 0) {
++			perror("ioctl[SIOCGIWRTS]");
++			ret = -1;
++		} else {
++			rtsThreshold = wrq.u.rts.value;
++			wpa_printf(MSG_DEBUG,"Get RTS Threshold command = %d",
++				rtsThreshold);
++			ret = snprintf(buf, buf_len, "rts-threshold = %u\n",
++				rtsThreshold);
++                        wpa_printf(MSG_DEBUG, "%s %s len = %d, %d", __func__, buf, ret, strlen(buf));
++			if (ret < (int)buf_len) {
++				return( ret );
++			}
++		}
++          return ret;
++	} else if (os_strncasecmp(cmd, "set-rts-threshold", 17) == 0) {
++		struct iwreq wrq;
++		unsigned int rtsThreshold;
++		char *cp = cmd + 17;
++		char *endp;
++
++		strncpy(wrq.ifr_name, drv->ifname, IFNAMSIZ);
++
++		if (*cp != '\0') {
++			rtsThreshold = (unsigned int)strtol(cp, &endp, 0);
++			if (endp != cp) {
++				wrq.u.rts.value = rtsThreshold;
++				wrq.u.rts.fixed = 1;
++				wrq.u.rts.disabled = 0;
++
++				if (ioctl(drv->ioctl_sock, SIOCSIWRTS, &wrq) < 0) {
++					perror("ioctl[SIOCGIWRTS]");
++					ret = -1;
++				} else {
++					rtsThreshold = wrq.u.rts.value;
++					wpa_printf(MSG_DEBUG,"Set RTS Threshold command = %d", rtsThreshold);
++					ret = 0;
++				}
++			}
++		}
++          return ret;
++	} else if (os_strcasecmp(cmd, "btcoexscan-start") == 0) {
++          return 16;
++	} else if (os_strcasecmp(cmd, "btcoexscan-stop") == 0) {
++          return 15;
++	} else if (os_strcasecmp(cmd, "rxfilter-start") == 0) {
++		wpa_printf(MSG_DEBUG,"Rx Data Filter Start command");
++          return 14;
++	} else if (os_strcasecmp(cmd, "rxfilter-stop") == 0) {
++		wpa_printf(MSG_DEBUG,"Rx Data Filter Stop command");
++          return 13;
++	} else if (os_strcasecmp(cmd, "rxfilter-statistics") == 0) {
++          return 19;
++	} else if (os_strncasecmp(cmd, "rxfilter-add", 12) == 0 ) {
++          return 12;
++	} else if (os_strncasecmp(cmd, "rxfilter-remove",15) == 0) {
++          return 15;
++	} else if (os_strcasecmp(cmd, "snr") == 0) {
++		struct iwreq wrq;
++		struct iw_statistics stats;
++		int snr, rssi, noise;
++
++		wrq.u.data.pointer = (caddr_t) &stats;
++		wrq.u.data.length = sizeof(stats);
++		wrq.u.data.flags = 1; /* Clear updated flag */
++		strncpy(wrq.ifr_name, drv->ifname, IFNAMSIZ);
++
++		if (ioctl(drv->ioctl_sock, SIOCGIWSTATS, &wrq) < 0) {
++			perror("ioctl[SIOCGIWSTATS]");
++			ret = -1;
++		} else {
++			if (stats.qual.updated & IW_QUAL_DBM) {
++				/* Values in dBm, stored in u8 with range 63 : -192 */
++				rssi = ( stats.qual.level > 63 ) ?
++					stats.qual.level - 0x100 :
++					stats.qual.level;
++				noise = ( stats.qual.noise > 63 ) ?
++					stats.qual.noise - 0x100 :
++					stats.qual.noise;
++			} else {
++				rssi = stats.qual.level;
++				noise = stats.qual.noise;
++			}
++
++			snr = rssi - noise;
+ 
++			ret = snprintf(buf, buf_len, "snr = %u\n", (unsigned int)snr);
++                        wpa_printf(MSG_DEBUG, "%s %s len = %d, %d", __func__, buf, ret, strlen(buf));
++			if (ret < (int)buf_len) {
++				return( ret );
++			}
++		}
++          return ret;
++	} else if (os_strncasecmp(cmd, "btcoexmode", 10) == 0) {
++          return 10;
++	} else if( os_strcasecmp(cmd, "btcoexstat") == 0 ) {
++          return 10;
 +	}
  	os_memset(&iwr, 0, sizeof(iwr));
  	os_strncpy(iwr.ifr_name, drv->ifname, IFNAMSIZ);
