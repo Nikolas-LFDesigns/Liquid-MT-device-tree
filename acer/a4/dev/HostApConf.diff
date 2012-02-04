@@ -1,4 +1,4 @@
-diff --git a/hostapd/hostapd/.config b/hostapd/hostapd/.config
+diff --git a/external/hostapd/hostapd/.config b/external/hostapd/hostapd/.config
 index b633fe8..e6407a9 100644
 --- a/external/hostapd/hostapd/.config
 +++ b/external/hostapd/hostapd/.config
