@@ -4,10 +4,7 @@ src_path=~/android/system
 
 cd $src_path
 
-#cp $src_path/device/acer/a4/dev/AcerRIL.java $src_path/frameworks/base/telephony/java/com/android/internal/telephony
-
 patch -p1 < $src_path/device/acer/a4/dev/SoftapControllerATH.diff
-#patch -p1 < $src_path/device/acer/a4/dev/PhoneFactory.diff
 patch -p1 < $src_path/device/acer/a4/dev/HostApConf.diff
 patch -p1 < $src_path/device/acer/a4/dev/WextDriver.diff
 

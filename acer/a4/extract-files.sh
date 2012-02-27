@@ -21,9 +21,6 @@ mkdir -p ../../../vendor/$MANUFACTURER/$DEVICE/proprietary
 #copy some stuff to ./dev
 adb pull /system/lib/libcameraservice.so ./dev/lib
 adb pull /system/lib/libcamera_client.so ./dev/lib
-#copy custom wpa_supplicant config
-cp ./dev/wpa_supplicant.conf ../../../vendor/$MANUFACTURER/$DEVICE/proprietary
-cp ./dev/hostapd.conf ../../../vendor/$MANUFACTURER/$DEVICE/proprietary
 #-----------------------------
 adb pull /system/wifi/ar6000.ko ./proprietary/modules
 adb pull /system/wifi/ath6k/AR6003/hw2.0/athtcmd_ram.bin ./proprietary/firmware
@@ -46,15 +43,9 @@ adb pull /system/usr/keylayout/qwerty.kl ../../../vendor/$MANUFACTURER/$DEVICE/p
 adb pull /system/etc/dhcpcd/dhcpcd.conf ../../../vendor/$MANUFACTURER/$DEVICE/proprietary
 
 adb pull /system/etc/01_qcomm_omx.cfg ../../../vendor/$MANUFACTURER/$DEVICE/proprietary
-#adb pull /system/etc/a4_tp_fw.hex ../../../vendor/$MANUFACTURER/$DEVICE/proprietary
-#adb pull /system/etc/sku-voicemail-conf.xml ../../../vendor/$MANUFACTURER/$DEVICE/proprietary
+adb pull /system/etc/acer_ril.db ../../../vendor/$MANUFACTURER/$DEVICE/proprietary
 adb pull /system/etc/voicemail-conf.xml ../../../vendor/$MANUFACTURER/$DEVICE/proprietary
 adb pull /system/etc/init.paso.bt.sh ../../../vendor/$MANUFACTURER/$DEVICE/proprietary
-#adb pull /system/etc/init.paso.coex.sh ../../../vendor/$MANUFACTURER/$DEVICE/proprietary
-#adb pull /system/etc/init.paso.dhcp.sh ../../../vendor/$MANUFACTURER/$DEVICE/proprietary
-#adb pull /system/etc/init.paso.fm.sh ../../../vendor/$MANUFACTURER/$DEVICE/proprietary
-#adb pull /system/etc/init.paso.sdio.sh ../../../vendor/$MANUFACTURER/$DEVICE/proprietary
-
 #-----------------------------------------
 adb pull /system/lib/egl/libEGL_adreno200.so ../../../vendor/$MANUFACTURER/$DEVICE/proprietary
 adb pull /system/lib/egl/libGLESv1_CM_adreno200.so ../../../vendor/$MANUFACTURER/$DEVICE/proprietary
@@ -72,11 +63,14 @@ adb pull /system/lib/libdss.so ../../../vendor/$MANUFACTURER/$DEVICE/proprietary
 adb pull /system/lib/libdsutils.so ../../../vendor/$MANUFACTURER/$DEVICE/proprietary
 adb pull /system/lib/libgsdi_exp.so ../../../vendor/$MANUFACTURER/$DEVICE/proprietary
 adb pull /system/lib/libgstk_exp.so ../../../vendor/$MANUFACTURER/$DEVICE/proprietary
+adb pull /system/lib/libidl.so ../../../vendor/$MANUFACTURER/$DEVICE/proprietary
 adb pull /system/lib/libloc_api-rpc-qc.so ../../../vendor/$MANUFACTURER/$DEVICE/proprietary
 adb pull /system/lib/libmmgsdilib.so ../../../vendor/$MANUFACTURER/$DEVICE/proprietary
 adb pull /system/lib/libnv.so ../../../vendor/$MANUFACTURER/$DEVICE/proprietary
 adb pull /system/lib/liboncrpc.so ../../../vendor/$MANUFACTURER/$DEVICE/proprietary
 adb pull /system/lib/libpbmlib.so ../../../vendor/$MANUFACTURER/$DEVICE/proprietary
+adb pull /system/lib/libpdapi.so ../../../vendor/$MANUFACTURER/$DEVICE/proprietary
+adb pull /system/lib/libpdsm_atl.so ../../../vendor/$MANUFACTURER/$DEVICE/proprietary
 adb pull /system/lib/libqueue.so ../../../vendor/$MANUFACTURER/$DEVICE/proprietary
 adb pull /system/lib/libqdp.so ../../../vendor/$MANUFACTURER/$DEVICE/proprietary
 adb pull /system/lib/libqmi.so ../../../vendor/$MANUFACTURER/$DEVICE/proprietary
@@ -91,36 +85,24 @@ adb pull /system/lib/libwmsts.so ../../../vendor/$MANUFACTURER/$DEVICE/proprieta
 adb pull /system/lib/libaudioalsa.so ../../../vendor/$MANUFACTURER/$DEVICE/proprietary
 adb pull /system/lib/libaudioeq.so ../../../vendor/$MANUFACTURER/$DEVICE/proprietary
 adb pull /system/lib/libcamera.so ../../../vendor/$MANUFACTURER/$DEVICE/proprietary
-adb pull /system/lib/libC2D2.so ../../../vendor/$MANUFACTURER/$DEVICE/proprietary
-adb pull /system/lib/libdec.so ../../../vendor/$MANUFACTURER/$DEVICE/proprietary
-adb pull /system/lib/libdsprofile.so ../../../vendor/$MANUFACTURER/$DEVICE/proprietary
-#adb pull /system/lib/libfm_wan_api.so ../../../vendor/$MANUFACTURER/$DEVICE/proprietary
-adb pull /system/lib/libfuse.so ../../../vendor/$MANUFACTURER/$DEVICE/proprietary
+adb pull /system/lib/libdivxdrmdecrypt.so ../../../vendor/$MANUFACTURER/$DEVICE/proprietary
+adb pull /system/lib/libDxAndroidSpecific.so ../../../vendor/$MANUFACTURER/$DEVICE/proprietary
+adb pull /system/lib/libDxDrmCAPI.so ../../../vendor/$MANUFACTURER/$DEVICE/proprietary
+adb pull /system/lib/libDxDrmJava.so ../../../vendor/$MANUFACTURER/$DEVICE/proprietary
 adb pull /system/lib/libgemini.so ../../../vendor/$MANUFACTURER/$DEVICE/proprietary
-adb pull /system/lib/libjni_AcerNativeMethod.so ../../../vendor/$MANUFACTURER/$DEVICE/proprietary
 adb pull /system/lib/libmmipl.so ../../../vendor/$MANUFACTURER/$DEVICE/proprietary
 adb pull /system/lib/libmm-abl.so ../../../vendor/$MANUFACTURER/$DEVICE/proprietary
 adb pull /system/lib/libmmjpeg.so ../../../vendor/$MANUFACTURER/$DEVICE/proprietary
-adb pull /system/lib/libmvs.so ../../../vendor/$MANUFACTURER/$DEVICE/proprietary
 adb pull /system/lib/libnetmgr.so ../../../vendor/$MANUFACTURER/$DEVICE/proprietary
 adb pull /system/lib/libOlaCameraJNI.so ../../../vendor/$MANUFACTURER/$DEVICE/proprietary
 adb pull /system/lib/libOlaEngine.so ../../../vendor/$MANUFACTURER/$DEVICE/proprietary
-adb pull /system/lib/liboem_rapi.so ../../../vendor/$MANUFACTURER/$DEVICE/proprietary
 adb pull /system/lib/liboemcamera.so ../../../vendor/$MANUFACTURER/$DEVICE/proprietary
 adb pull /system/lib/liboverlay.so ../../../vendor/$MANUFACTURER/$DEVICE/proprietary
-adb pull /system/lib/libpdapi.so ../../../vendor/$MANUFACTURER/$DEVICE/proprietary
-adb pull /system/lib/libpdsm_atl.so ../../../vendor/$MANUFACTURER/$DEVICE/proprietary
-adb pull /system/lib/libping_mdm.so ../../../vendor/$MANUFACTURER/$DEVICE/proprietary
 adb pull /system/lib/libpng.so ../../../vendor/$MANUFACTURER/$DEVICE/proprietary
 adb pull /system/lib/libsensors_algos.so ../../../vendor/$MANUFACTURER/$DEVICE/proprietary
-adb pull /system/lib/libTPCal.so ../../../vendor/$MANUFACTURER/$DEVICE/proprietary
-adb pull /system/lib/libuim.so ../../../vendor/$MANUFACTURER/$DEVICE/proprietary
 
 adb pull /system/lib/hw/sensors.paso.so ../../../vendor/$MANUFACTURER/$DEVICE/proprietary
 adb pull /system/lib/hw/overlay.default.so ../../../vendor/$MANUFACTURER/$DEVICE/proprietary
-
-adb pull /system/lib/libidl.so ../../../vendor/$MANUFACTURER/$DEVICE/proprietary
-#adb pull /system/lib/libiprouteutil.so ../../../vendor/$MANUFACTURER/$DEVICE/proprietary
 
 adb pull /system/lib/libqcomm_omx.so ../../../vendor/$MANUFACTURER/$DEVICE/proprietary
 adb pull /system/lib/libOmxAacDec.so ../../../vendor/$MANUFACTURER/$DEVICE/proprietary
@@ -142,15 +124,11 @@ adb pull /system/lib/libOmxMp3Dec.so ../../../vendor/$MANUFACTURER/$DEVICE/propr
 adb pull /system/lib/libOmxQcelp13Dec.so ../../../vendor/$MANUFACTURER/$DEVICE/proprietary
 adb pull /system/lib/libOmxQcelp13Enc.so ../../../vendor/$MANUFACTURER/$DEVICE/proprietary
 adb pull '/system/lib/libomx_sharedlibrary.so' ../../../vendor/$MANUFACTURER/$DEVICE/proprietary
-#adb pull /system/lib/libOmxVdec.so ../../../vendor/$MANUFACTURER/$DEVICE/proprietary
-#adb pull /system/lib/libOmxVenc.so ../../../vendor/$MANUFACTURER/$DEVICE/proprietary
 adb pull /system/lib/libOmxWmaDec.so ../../../vendor/$MANUFACTURER/$DEVICE/proprietary
 #-----------------------------------------
 adb pull /system/bin/akmd8975 ../../../vendor/$MANUFACTURER/$DEVICE/proprietary
 adb pull /system/bin/artagent ../../../vendor/$MANUFACTURER/$DEVICE/proprietary
 adb pull /system/bin/athtestcmd ../../../vendor/$MANUFACTURER/$DEVICE/proprietary
-#adb pull /system/bin/ds_fmc_appd ../../../vendor/$MANUFACTURER/$DEVICE/proprietary
-#adb pull /system/bin/fm_qsoc_patches ../../../vendor/$MANUFACTURER/$DEVICE/proprietary
 adb pull /system/bin/get_sensors_calib ../../../vendor/$MANUFACTURER/$DEVICE/proprietary
 adb pull /system/bin/get_wlan_mac ../../../vendor/$MANUFACTURER/$DEVICE/proprietary
 adb pull /system/bin/hci_qcomm_init ../../../vendor/$MANUFACTURER/$DEVICE/proprietary
@@ -162,7 +140,6 @@ adb pull /system/bin/mm-omx-devmgr ../../../vendor/$MANUFACTURER/$DEVICE/proprie
 adb pull /system/bin/netmgrd ../../../vendor/$MANUFACTURER/$DEVICE/proprietary
 adb pull /system/bin/port-bridge ../../../vendor/$MANUFACTURER/$DEVICE/proprietary
 adb pull /system/bin/qmuxd ../../../vendor/$MANUFACTURER/$DEVICE/proprietary
-adb pull /system/bin/wlan_tool ../../../vendor/$MANUFACTURER/$DEVICE/proprietary
 adb pull /system/bin/wmiconfig ../../../vendor/$MANUFACTURER/$DEVICE/proprietary
 
 (cat << EOF) | sed s/__DEVICE__/$DEVICE/g > ../../../vendor/$MANUFACTURER/$DEVICE/$DEVICE-vendor-blobs.mk
@@ -180,7 +157,7 @@ adb pull /system/bin/wmiconfig ../../../vendor/$MANUFACTURER/$DEVICE/proprietary
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# This file is generated by device/acer/__DEVICE__/extract-files.sh
+# This file is generated by device/acer/a4/extract-files.sh
 
 # Prebuilt libraries that are needed to build open-source libraries
 PRODUCT_COPY_FILES += \\
@@ -202,18 +179,10 @@ PRODUCT_COPY_FILES += \\
 # ETC
 PRODUCT_COPY_FILES += \\
     vendor/acer/__DEVICE__/proprietary/dhcpcd.conf:/system/etc/dhcpcd/dhcpcd.conf \\
-    vendor/acer/__DEVICE__/proprietary/hostapd.conf:/system/etc/wifi/hostapd.conf \\
-    vendor/acer/__DEVICE__/proprietary/wpa_supplicant.conf:/system/etc/wifi/wpa_supplicant.conf \\
     vendor/acer/__DEVICE__/proprietary/01_qcomm_omx.cfg:/system/etc/01_qcomm_omx.cfg \\
     vendor/acer/__DEVICE__/proprietary/voicemail-conf.xml:/system/etc/voicemail-conf.xml \\
     vendor/acer/__DEVICE__/proprietary/init.paso.bt.sh:/system/etc/init.paso.bt.sh \\
-# EGL libs
-PRODUCT_COPY_FILES += \\
-    vendor/acer/__DEVICE__/proprietary/libEGL_adreno200.so:/system/lib/egl/libEGL_adreno200.so \\
-    vendor/acer/__DEVICE__/proprietary/libGLESv1_CM_adreno200.so:/system/lib/egl/libGLESv1_CM_adreno200.so \\
-    vendor/acer/__DEVICE__/proprietary/libGLESv2_adreno200.so:/system/lib/egl/libGLESv2_adreno200.so \\
-    vendor/acer/__DEVICE__/proprietary/libq3dtools_adreno200.so:/system/lib/egl/libq3dtools_adreno200.so \\
-    vendor/acer/__DEVICE__/proprietary/libgsl.so:/system/lib/libgsl.so
+    vendor/acer/__DEVICE__/proprietary/acer_ril.db:/system/etc/acer-ril.db \\
 # ril libs
 PRODUCT_COPY_FILES += \\
     vendor/acer/__DEVICE__/proprietary/libauth.so:/system/lib/libauth.so \\
@@ -226,11 +195,14 @@ PRODUCT_COPY_FILES += \\
     vendor/acer/__DEVICE__/proprietary/libdsutils.so:/system/lib/libdsutils.so \\
     vendor/acer/__DEVICE__/proprietary/libgsdi_exp.so:/system/lib/libgsdi_exp.so \\
     vendor/acer/__DEVICE__/proprietary/libgstk_exp.so:/system/lib/libgstk_exp.so \\
+    vendor/acer/__DEVICE__/proprietary/libidl.so:/system/lib/libidl.so \\
     vendor/acer/__DEVICE__/proprietary/libloc_api-rpc-qc.so:/system/lib/libloc_api-rpc-qc.so \\
     vendor/acer/__DEVICE__/proprietary/libmmgsdilib.so:/system/lib/libmmgsdilib.so \\
     vendor/acer/__DEVICE__/proprietary/libnv.so:/system/lib/libnv.so \\
     vendor/acer/__DEVICE__/proprietary/liboncrpc.so:/system/lib/liboncrpc.so \\
     vendor/acer/__DEVICE__/proprietary/libpbmlib.so:/system/lib/libpbmlib.so \\
+    vendor/acer/__DEVICE__/proprietary/libpdapi.so:/system/lib/libpdapi.so \\
+    vendor/acer/__DEVICE__/proprietary/libpdsm_atl.so:/system/lib/libpdsm_atl.so \\
     vendor/acer/__DEVICE__/proprietary/libqueue.so:/system/lib/libqueue.so \\
     vendor/acer/__DEVICE__/proprietary/libqdp.so:/system/lib/libqdp.so \\
     vendor/acer/__DEVICE__/proprietary/libqmi.so:/system/lib/libqmi.so \\
@@ -245,35 +217,33 @@ PRODUCT_COPY_FILES += \\
 PRODUCT_COPY_FILES += \\
     vendor/acer/__DEVICE__/proprietary/sensors.paso.so:/system/lib/hw/sensors.paso.so \\
     vendor/acer/__DEVICE__/proprietary/overlay.default.so:/system/lib/hw/overlay.default.so \\
+#EGL
+PRODUCT_COPY_FILES += \\
+    vendor/acer/__DEVICE__/proprietary/libEGL_adreno200.so:/system/lib/egl/libEGL_adreno200.so \\
+    vendor/acer/__DEVICE__/proprietary/libGLESv1_CM_adreno200.so:/system/lib/egl/libGLESv1_CM_adreno200.so \\
+    vendor/acer/__DEVICE__/proprietary/libGLESv2_adreno200.so:/system/lib/egl/libGLESv2_adreno200.so \\
+    vendor/acer/__DEVICE__/proprietary/libq3dtools_adreno200.so:/system/lib/egl/libq3dtools_adreno200.so \\
+    vendor/acer/__DEVICE__/proprietary/libgsl.so:/system/lib/libgsl.so 
 # libs
 PRODUCT_COPY_FILES += \\
     vendor/acer/__DEVICE__/proprietary/libaudioalsa.so:/system/lib/libaudioalsa.so \\
     vendor/acer/__DEVICE__/proprietary/libaudioeq.so:/system/lib/libaudioeq.so \\
     vendor/acer/__DEVICE__/proprietary/libcamera.so:/system/lib/libcamera.so \\
-    vendor/acer/__DEVICE__/proprietary/libC2D2.so:/system/lib/libC2D2.so \\
-    vendor/acer/__DEVICE__/proprietary/libdec.so:/system/lib/libdec.so \\
-    vendor/acer/__DEVICE__/proprietary/libdsprofile.so:/system/lib/libdsprofile.so \\
-    vendor/acer/__DEVICE__/proprietary/libfuse.so:/system/lib/libfuse.so \\
+    vendor/acer/__DEVICE__/proprietary/libdivxdrmdecrypt.so:/system/lib/libdivxdrmdecrypt.so \\
+    vendor/acer/__DEVICE__/proprietary/libDxAndroidSpecific.so:/system/lib/libDxAndroidSpecific.so \\
+    vendor/acer/__DEVICE__/proprietary/libDxDrmCAPI.so:/system/lib/libDxDrmCAPI.so \\
+    vendor/acer/__DEVICE__/proprietary/libDxDrmJava.so:/system/lib/libDxDrmJava.so \\
     vendor/acer/__DEVICE__/proprietary/libgemini.so:/system/lib/libgemini.so \\
-    vendor/acer/__DEVICE__/proprietary/libidl.so:/system/lib/libidl.so \\
-    vendor/acer/__DEVICE__/proprietary/libjni_AcerNativeMethod.so:/system/lib/libjni_AcerNativeMethod.so \\
     vendor/acer/__DEVICE__/proprietary/libmmipl.so:/system/lib/libmmipl.so \\
     vendor/acer/__DEVICE__/proprietary/libmm-abl.so:/system/lib/libmm-abl.so \\
     vendor/acer/__DEVICE__/proprietary/libmmjpeg.so:/system/lib/libmmjpeg.so \\
-    vendor/acer/__DEVICE__/proprietary/libmvs.so:/system/lib/libmvs.so \\
     vendor/acer/__DEVICE__/proprietary/libnetmgr.so:/system/lib/libnetmgr.so \\
     vendor/acer/__DEVICE__/proprietary/libOlaCameraJNI.so:/system/lib/libOlaCameraJNI.so \\
     vendor/acer/__DEVICE__/proprietary/libOlaEngine.so:/system/lib/libOlaEngine.so \\
-    vendor/acer/__DEVICE__/proprietary/liboem_rapi.so:/system/lib/liboem_rapi.so \\
     vendor/acer/__DEVICE__/proprietary/liboemcamera.so:/system/lib/liboemcamera.so \\
     vendor/acer/__DEVICE__/proprietary/liboverlay.so:/system/lib/liboverlay.so \\
-    vendor/acer/__DEVICE__/proprietary/libpdapi.so:/system/lib/libpdapi.so \\
-    vendor/acer/__DEVICE__/proprietary/libpdsm_atl.so:/system/lib/libpdsm_atl.so \\
-    vendor/acer/__DEVICE__/proprietary/libping_mdm.so:/system/lib/libping_mdm.so \\
     vendor/acer/__DEVICE__/proprietary/libpng.so:/system/lib/libpng.so \\
     vendor/acer/__DEVICE__/proprietary/libsensors_algos.so:/system/lib/libsensors_algos.so \\
-    vendor/acer/__DEVICE__/proprietary/libTPCal.so:/system/lib/libTPCal.so \\
-    vendor/acer/__DEVICE__/proprietary/libuim.so:/system/lib/libuim.so
 #omx
 PRODUCT_COPY_FILES += \\
     vendor/acer/__DEVICE__/proprietary/libqcomm_omx.so:/system/lib/libqcomm_omx.so \\
@@ -313,8 +283,7 @@ PRODUCT_COPY_FILES += \\
     vendor/acer/__DEVICE__/proprietary/netmgrd:/system/bin/netmgrd \\
     vendor/acer/__DEVICE__/proprietary/port-bridge:/system/bin/port-bridge \\
     vendor/acer/__DEVICE__/proprietary/qmuxd:/system/bin/qmuxd \\
-    vendor/acer/__DEVICE__/proprietary/wlan_tool:/system/bin/wlan_tool \\
-    vendor/acer/__DEVICE__/proprietary/wmiconfig:/system/bin/wmiconfig
+    vendor/acer/__DEVICE__/proprietary/wmiconfig:/system/bin/wmiconfig \\
 EOF
 
 ./setup-makefiles.sh
