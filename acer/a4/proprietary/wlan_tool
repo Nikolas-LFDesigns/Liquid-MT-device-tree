@@ -1,0 +1,91 @@
+#!/system/bin/sh
+#------------------------------------------------------------------------------
+# <copyright file="makefile" company="Atheros">
+#    Copyright (c) 2005-2010 Atheros Corporation.  All rights reserved.
+# $ATH_LICENSE_HOSTSDK0_C$
+#------------------------------------------------------------------------------
+#==============================================================================
+# Author(s): ="Atheros"
+#==============================================================================
+CLK_HELPER=1
+NON_FROYO=1
+#WMODE="bg"
+IFNAME=`getprop wifi.interface wlan0`
+ARGS=`getprop wlan.driver.args "\"ifname=$IFNAME\""`
+MODE_TCMD="insmod_tcmd"
+MODE_WLAN="insmod"
+AP_IF_MODE="nat"
+AP_SUBNET="192.168.11"
+DNSMASQ_PID_FILE="/data/misc/wifi/hostapd/dnsmasq.pid"
+HOSTAP_PID_FILE="/data/misc/wifi/hostapd/hostapd.pid"
+HOSTAP_CONF_FILE="/data/misc/wifi/hostapd.conf"
+TAGS="wlan_tool"
+MODULE_CHECK="ls /sys/bus/sdio/drivers/ar6k_wlan"
+WLAN_ENABLE_CHECK="wmiconfig -i $IFNAME --getRTS"
+DRIVER_PROP_NAME="wlan.driver.status"
+APMODE_PROP_NAME="wlan.driver.apmode"
+WIFI_STATUS="`getprop $DRIVER_PROP_NAME failed`"
+BT_ENABLED="" # To be define
+#SYSLOG="echo "
+SYSLOG="log -p i -t $TAGS "
+
+do_rmmod() {
+    if ! rmmod ar6000; then
+        $SYSLOG "Fallback to use on property:wlan.driver.status=rmmod which will exec /system/bin/rmmod"
+        setprop $DRIVER_PROP_NAME rmmod
+        for i in 1 2 3 4 5 6 7 8 9 10; do
+            if ! $MODULE_CHECK; then
+                break;
+            fi
+            sleep 1
+        done
+    fi
+}
+reload() {
+    get_wlan_mac
+    if ls $HOSTAP_PID_FILE; then
+        kill -15 `cat $HOSTAP_PID_FILE`
+        rm $HOSTAP_PID_FILE
+    fi
+    if $MODULE_CHECK; then
+        do_rmmod
+    fi
+    $SYSLOG "Try to load driver with $@"
+    insmod /system/wifi/ar6000.ko BinFileVer=0 $@
+    for i in 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20; do
+        if $WLAN_ENABLE_CHECK; then
+            break;
+        fi
+        sleep 1
+    done
+}
+unloaddriver() {
+    $SYSLOG "wifi unloading"
+    wmiconfig -i $IFNAME --wlan disable        
+    for i in 1 2 3 4 5 6 7 8 9 10; do
+        if ! $WLAN_ENABLE_CHECK; then
+            break;
+        fi
+        sleep 1
+    done
+    setprop $DRIVER_PROP_NAME "unloaded"
+}
+
+$SYSLOG "wifi loading"
+  setprop $DRIVER_PROP_NAME ""
+  if $MODULE_CHECK; then
+     $SYSLOG "Driver is initialized. load it"
+     wmiconfig -i $IFNAME --wlan enable
+  else
+    reload $MODE_WLAN
+  fi   
+  if $WLAN_ENABLE_CHECK; then
+    ifconfig $IFNAME up
+    $SYSLOG "ar6000 driver loaded"
+    setprop $DRIVER_PROP_NAME "ok"
+  else
+    $SYSLOG "ar6000 driver fails to load"
+    setprop $DRIVER_PROP_NAME "failed"
+  fi
+  /system/bin/logwrapper /system/bin/hostapd /data/misc/wifi/hostapd.conf
+  unloaddriver

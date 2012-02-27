@@ -86,6 +86,12 @@ PRODUCT_PACKAGES += \
     libreference-ril \
     libloc_api-rpc
 
+#Custom wifi configurations
+PRODUCT_COPY_FILES += \
+    device/acer/a4/proprietary/hostapd.conf:/system/etc/wifi/hostapd.conf \
+    device/acer/a4/proprietary/wpa_supplicant.conf:/system/etc/wifi/wpa_supplicant.conf \
+    device/acer/a4/proprietary/wlan_tool:/system/bin/wlan_tool
+
 #Wifi Firmware
 PRODUCT_COPY_FILES += \
     device/acer/a4/proprietary/modules/ar6000.ko:system/wifi/ar6000.ko \
