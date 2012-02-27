@@ -2,14 +2,6 @@ diff --git a/external/wpa_supplicant_6/wpa_supplicant/src/drivers/driver_wext.c 
 index d2ef4e7..e5d0043 100644
 --- a/external/wpa_supplicant_6/wpa_supplicant/src/drivers/driver_wext.c
 +++ b/external/wpa_supplicant_6/wpa_supplicant/src/drivers/driver_wext.c
-@@ -1072,6 +1072,7 @@ void wpa_driver_wext_deinit(void *priv)
- 	close(drv->ioctl_sock);
- 	if (drv->mlme_sock >= 0)
- 		close(drv->mlme_sock);
-+	os_free(drv->ifname);
- 	os_free(drv->assoc_req_ies);
- 	os_free(drv->assoc_resp_ies);
- 	os_free(drv);
 @@ -2548,8 +2549,149 @@ static int wpa_driver_priv_driver_cmd( void *priv, char *cmd, char *buf, size_t
  		wpa_printf(MSG_DEBUG,"Reload command");
  		wpa_msg(drv->ctx, MSG_INFO, WPA_EVENT_DRIVER_STATE "HANGED");
