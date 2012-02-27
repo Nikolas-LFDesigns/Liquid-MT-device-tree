@@ -915,7 +915,7 @@ static status_t do_route_audio_rpc(uint32_t device,
     }
     else if(device == SND_DEVICE_HEADSET) {
         new_rx_device = DEVICE_headset_stereo_rx;
-        new_tx_device = DEVICE_headset_mono_tx;
+        new_tx_device = DEVICE_handset_dual_mic_endfire_tx;
         LOGV("In HEADSET");
     }
     else if (device == SND_DEVICE_FM_HANDSET) {
@@ -962,7 +962,7 @@ static status_t do_route_audio_rpc(uint32_t device,
     }
     else if(device == SND_DEVICE_HEADSET_AND_SPEAKER) {
         new_rx_device = DEVICE_SPEAKER_headset_stereo_rx;
-        new_tx_device = DEVICE_headset_mono_tx;
+        new_tx_device = DEVICE_handset_dual_mic_endfire_tx;
         LOGV("In DEVICE_SPEAKER_headset_stereo_rx and DEVICE_headset_mono_tx");
     }
     else if(device == SND_DEVICE_HEADPHONE_AND_SPEAKER) {
