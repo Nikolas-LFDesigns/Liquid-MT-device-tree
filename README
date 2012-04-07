@@ -26,8 +26,8 @@ to make a2sd stuff (which automatically builds only with eng key), just type aft
 cd external/e2fsprogs
 mm
 
-then, when build is ready, just copy system folder to out/target/product/a4/dev folder in devicetree.
+then, when build is ready, just copy system folder from out/target/product/a4 to /dev folder in devicetree.
 find (on any cm-based rom for our device) and place META-INF folder and boot.img file to /dev
 change updater-script if necessary on respective file on dev folder
 fire up prepare_build.sh to make some cleanups on ready build
-zip system with META-INF and boot.img file (you could find'em somewhere else in roms) to make flashable unsigned zip
+zip system with META-INF and boot.img file to make flashable unsigned zip
